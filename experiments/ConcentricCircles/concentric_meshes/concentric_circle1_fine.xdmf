@@ -1,0 +1,12 @@
+<Xdmf Version="3.0">
+  <Domain>
+    <Grid Name="Grid">
+      <Geometry GeometryType="XY">
+        <DataItem DataType="Float" Dimensions="85535 2" Format="HDF" Precision="8">concentric_circle1_fine.h5:/data0</DataItem>
+      </Geometry>
+      <Topology NumberOfElements="170170" TopologyType="Triangle">
+        <DataItem DataType="Int" Dimensions="170170 3" Format="HDF" Precision="8">concentric_circle1_fine.h5:/data1</DataItem>
+      </Topology>
+    </Grid>
+  </Domain>
+</Xdmf>

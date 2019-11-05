@@ -1,0 +1,15 @@
+<Xdmf Version="3.0">
+  <Domain>
+    <Grid Name="Grid">
+      <Geometry GeometryType="XY">
+        <DataItem DataType="Float" Dimensions="85535 2" Format="HDF" Precision="8">concentric_circle1_fine_cf.h5:/data0</DataItem>
+      </Geometry>
+      <Topology NumberOfElements="170170" TopologyType="Triangle">
+        <DataItem DataType="Int" Dimensions="170170 3" Format="HDF" Precision="8">concentric_circle1_fine_cf.h5:/data1</DataItem>
+      </Topology>
+      <Attribute AttributeType="Scalar" Center="Cell" Name="cell_data">
+        <DataItem DataType="Int" Dimensions="170170" Format="HDF" Precision="8">concentric_circle1_fine_cf.h5:/data2</DataItem>
+      </Attribute>
+    </Grid>
+  </Domain>
+</Xdmf>
