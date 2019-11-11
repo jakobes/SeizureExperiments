@@ -224,6 +224,3 @@ if __name__ == "__main__":
 
     parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
     print(len(parameter_list))
-
-    pool = Pool(processes=len(parameter_list))
-    pool.map(run, parameter_list)

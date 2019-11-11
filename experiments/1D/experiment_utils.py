@@ -42,12 +42,6 @@ def get_solver(brain: CardiacModel, ode_dt: int = 1) -> SplittingSolver:
     ps["BidomainSolver"]["use_avg_u_constraint"] = False
     ps["CardiacODESolver"]["scheme"] = "RK4"
 
-    ps["MonodomainSolver"]["Chi"] = 1.26e3      # 1/cm -- Dougherty 2015
-    ps["MonodomainSolver"]["Cm"] = 1.0          # muF/cm^2 -- Dougherty 2015
-
-    # Ratio of Intra to extra cellular conductivity
-    ps["MonodomainSolver"]["lambda"] = brain.intracellular_conductivity()/2.76
-
     df.parameters["form_compiler"]["representation"] = "uflacs"
     df.parameters["form_compiler"]["cpp_optimize"] = True
     df.parameters["form_compiler"]["optimize"] = True

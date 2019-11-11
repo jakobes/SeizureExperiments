@@ -120,7 +120,7 @@ def assign_initial_condition(brain, vs_prev: df.Function, cell_model_dict: Dict[
 
 def get_brain(case_id, conductivity) -> CoupledBrainModel:
     time_constant = df.Constant(0)
-    mesh, cell_function, interface_function = get_mesh("squiggly_meshes", "flower")
+    mesh, cell_function, interface_function = get_mesh("rose_meshes", "rose")
 
     cell_tags = CellTags(CSF=3, GM=2, WM=1, Kinf=4)
     interface_tags = InterfaceTags(skull=None, CSF_GM=None, GM_WM=None, CSF=None, GM=None, WM=None)
@@ -208,7 +208,7 @@ def get_solver(brain, Ks, Ku) -> BidomainSplittingSolver:
 
     csf_values = [0]*len(cressman_values)
 
-    _, cell_function, _ = get_mesh("squiggly_meshes", "flower")
+    _, cell_function, _ = get_mesh("rose_meshes", "rose")
 
     cell_model_dict = {
         1: cressman_values,
@@ -337,14 +337,13 @@ if __name__ == "__main__":
         print("Max memory usage: {:3.1f} Gb".format(max_memory_usage))
         print("Execution time: {:.2f} s".format(tock - tick))
 
-    run((1, 1, 4, 8))
-    # conductivities = [2**(2*n) for n in range(-3, 2)]
-    # lengths = list(range(3))
+    conductivities = [2**(2*n) for n in range(-3, 2)]
+    lengths = list(range(3))
 
-    # Ks = float(sys.argv[1])
-    # Ku = float(sys.argv[2])
+    Ks = float(sys.argv[1])
+    Ku = float(sys.argv[2])
 
-    # parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
+    parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
 
-    # pool = Pool(processes=len(parameter_list))
-    # pool.map(run, parameter_list)
+    pool = Pool(processes=len(parameter_list))
+    pool.map(run, parameter_list)

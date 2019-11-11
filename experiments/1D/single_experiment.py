@@ -35,23 +35,30 @@ from experiment_utils import (
 from typing import Union
 
 
-def get_Kinf() -> df.Expression:
+def get_Kinf(L, Ks=4, Ku=8) -> df.Expression:
     """Return the varying Kinf."""
+    return df.Expression(
+        "x[0] > (1 - L)/2 && x[0] < (1 + L)/2 ? Ku : Ks",
+        Ks=Ks,
+        L=L,
+        Ku=Ku,
+        degree=1
+    )
 
-    class Kinf(df.UserExpression):
-        def eval(self, values, x):
-            if x[0] < 0.2:
-                values[0] = 9.5
-            elif x[0] < 0.4:
-                values[0] = 4
-            elif x[0] < 0.6:
-                values[0] = 8
-            elif x[0] < 0.8:
-                values[0] = 7.5
-            else:
-                values[0] = 6
+    # class Kinf(df.UserExpression):
+    #     def eval(self, values, x):
+    #         if x[0] < 0.2:
+    #             values[0] = 9.5
+    #         elif x[0] < 0.4:
+    #             values[0] = 4
+    #         elif x[0] < 0.6:
+    #             values[0] = 8
+    #         elif x[0] < 0.8:
+    #             values[0] = 7.5
+    #         else:
+    #             values[0] = 6
 
-    return Kinf()
+    # return Kinf()
 
 
 def get_points(dimension=1):
@@ -61,9 +68,10 @@ def get_points(dimension=1):
 
 
 def get_brain(
-        dimension: int,
-        N: int,
-        conductivity: float
+    dimension: int,
+    N: int,
+    conductivity: float,
+    K_domain_size: float
 ) -> CardiacModel:
     """
     Create container class for splitting solver parameters
@@ -78,7 +86,7 @@ def get_brain(
     mesh = get_mesh(dimension, N)
     Mi = get_conductivities(conductivity)
     time_const = df.Constant(0)
-    Kinf = get_Kinf()
+    Kinf = get_Kinf(K_domain_size)
 
     model_parameters = Cressman.default_parameters()
     model_parameters["Koinf"] = Kinf
@@ -124,6 +132,7 @@ def get_post_processor(
 
 
 def run_ML_experiment(
+        *,
         conductivity: float,
         Kinf_domain_size: float,
         N: int,
@@ -148,11 +157,11 @@ def run_ML_experiment(
     """
     print("Conductivity: {:4.2f}, KL: {:4.2f}".format(conductivity, Kinf_domain_size))
 
-    brain = get_brain(dimension, N, conductivity)
+    brain = get_brain(dimension, N, conductivity, Kinf_domain_size)
     solver = get_solver(brain, ode_dt=1)
 
     outpath = get_outpath(dimension)
-    identifier = "foobar"
+    identifier = "test"
 
     if reload:
         reload_initial_condition(solver, outpath / identifier)
@@ -164,7 +173,6 @@ def run_ML_experiment(
         outpath=outpath,
         suffix=identifier
     )
-    # shutil.copyfile(__file__, outpath / identifier / Path(__file__).name)
 
     for i, ((t0, t1), (vs_, vs, vur)) in tqdm.tqdm(enumerate(solver.solve((0, T), dt)), total=T/dt - 1):
         if verbose:
