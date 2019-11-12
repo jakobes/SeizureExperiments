@@ -176,7 +176,6 @@ def get_solver(brain, Ks, Ku) -> BidomainSplittingSolver:
     # odemap.add_ode(1, odesolver_module.Fitzhugh())
     odemap.add_ode(2, odesolver_module.Cressman(Ks))
     odemap.add_ode(4, odesolver_module.Cressman(Ku))
-    print("f1")
 
     parameters = CoupledSplittingSolverParameters()
     ode_parameters = CoupledODESolverParameters(
@@ -185,7 +184,6 @@ def get_solver(brain, Ks, Ku) -> BidomainSplittingSolver:
         reload_extension_modules=False,
         parameter_map=odemap
     )
-    print("f2")
 
     pde_parameters = CoupledBidomainParameters(linear_solver_type="direct")
 
@@ -195,7 +193,6 @@ def get_solver(brain, Ks, Ku) -> BidomainSplittingSolver:
         ode_parameters=ode_parameters,
         pde_parameters=pde_parameters
     )
-    print("f3")
 
     vs_prev, *_ = solver.solution_fields()
 
@@ -204,7 +201,6 @@ def get_solver(brain, Ks, Ku) -> BidomainSplittingSolver:
 
     fitzhugh_full_values = [0]*len(cressman_values)
     fitzhugh_full_values[len(fitzhugh_values)] = fitzhugh_values
-    print("f4")
 
     csf_values = [0]*len(cressman_values)
 
@@ -216,14 +212,12 @@ def get_solver(brain, Ks, Ku) -> BidomainSplittingSolver:
         2: cressman_values,
         4: cressman_values,
     }
-    print("f5")
     odesolver_module.assign_vector(
         vs_prev.vector(),
         cell_model_dict,
         cell_function,
         vs_prev.function_space()._cpp_object
     )
-    print("f6")
 
     return solver
 
@@ -284,12 +278,9 @@ if __name__ == "__main__":
         conductivity, case_id, Ks, Ku = args
         T = 10e3        # 10 seconds
         dt = 0.05
-        print(1)
 
         brain = get_brain(case_id, conductivity)
-        print(2)
         solver = get_solver(brain, Ks, Ku)
-        print(3)
 
         identifier = simulation_directory(
             home=Path("."),
@@ -302,14 +293,11 @@ if __name__ == "__main__":
             },
             directory_name="squiggly/K_{}_{}".format(Ks, Ku)
         )
-        print(4)
 
         saver, trace_name_list = get_saver(brain, identifier, case_id)
-        print(5)
 
         resource_usage = resource.getrusage(resource.RUSAGE_SELF)
         tick = time.perf_counter()
-        print(5)
 
         for i, solution_struct in enumerate(solver.solve(0, T, dt)):
             norm = solution_struct.vur.vector().norm('l2')
@@ -337,13 +325,15 @@ if __name__ == "__main__":
         print("Max memory usage: {:3.1f} Gb".format(max_memory_usage))
         print("Execution time: {:.2f} s".format(tock - tick))
 
-    conductivities = [2**(2*n) for n in range(-3, 2)]
-    lengths = list(range(3))
+    run((1, 1, 4, 8))
 
-    Ks = float(sys.argv[1])
-    Ku = float(sys.argv[2])
+    # conductivities = [2**(2*n) for n in range(-3, 2)]
+    # lengths = list(range(3))
 
-    parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
+    # Ks = float(sys.argv[1])
+    # Ku = float(sys.argv[2])
 
-    pool = Pool(processes=len(parameter_list))
-    pool.map(run, parameter_list)
+    # parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
+
+    # pool = Pool(processes=len(parameter_list))
+    # pool.map(run, parameter_list)

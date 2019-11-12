@@ -216,11 +216,12 @@ if __name__ == "__main__":
         print("Max memory usage: {:3.1f} Gb".format(max_memory_usage))
         print("Execution time: {:.2f} s".format(tock - tick))
 
-    conductivities = [2**(2*n) for n in range(-3, 2)]
-    lengths = list(range(3))
+    run((1, 1, 4, 8))
+    # conductivities = [2**(2*n) for n in range(-3, 2)]
+    # lengths = list(range(3))
 
-    Ks = float(sys.argv[1])
-    Ku = float(sys.argv[2])
+    # Ks = float(sys.argv[1])
+    # Ku = float(sys.argv[2])
 
-    parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
-    print(len(parameter_list))
+    # parameter_list = list(itertools.product(conductivities, lengths, [Ks], [Ku]))
+    # print(len(parameter_list))
