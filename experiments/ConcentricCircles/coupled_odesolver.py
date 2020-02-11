@@ -61,7 +61,7 @@ class CoupledODESolver:
 
         self.ode_solver = self.ode_module.LatticeODESolver(
             self._function_space_VS._cpp_object,
-            cell_function.array(),
+            VectorInt(cell_function.array()),
             self._parameters.parameter_map
         )
 
