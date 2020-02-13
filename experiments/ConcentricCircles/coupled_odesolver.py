@@ -1,6 +1,6 @@
 import dolfin as df
 
-from xalode import VectorInt
+from xalode import VectorInt, VectorSizet
 
 from extension_modules import load_module
 
@@ -61,7 +61,7 @@ class CoupledODESolver:
 
         self.ode_solver = self.ode_module.LatticeODESolver(
             self._function_space_VS._cpp_object,
-            VectorInt(cell_function.array()),
+            VectorSizet(cell_function.array()),
             self._parameters.parameter_map
         )
 

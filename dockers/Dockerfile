@@ -1,4 +1,5 @@
-FROM quay.io/fenicsproject/stable:latest
+# FROM quay.io/fenicsproject/stable
+FROM quay.io/fenicsproject/stable:2019.1.0.r3
 
 USER root
 
@@ -7,12 +8,12 @@ ENV FENICS_PYTHON=python3
 RUN ${FENICS_PYTHON} -m pip install --upgrade pip && \
     ${FENICS_PYTHON} -m pip install tqdm h5py cppimport && \
     ${FENICS_PYTHON} -m pip install git+git://github.com/jakobes/xalbrain@js-2018 && \
-    ${FENICS_PYTHON} -m pip install git+git://github.com/jakobes/xalpost && \
-    ${FENICS_PYTHON} -m pip install git+git://github.com/mikaem/fenicstools
+    ${FENICS_PYTHON} -m pip install git+git://github.com/jakobes/xalpost
 
 RUN cd ${FENICS_HOME} && \
     ${FENICS_PYTHON} -m pip uninstall -y fenicstools && \
     git clone https://github.com/jakobes/fenicstools.git
+
 # RUN cd fenicstools && ${FENICS_PYTHON} -m pip install --user .
 # RUN ${FENICS_PYTHON} -c "import fenicstools; fenicstools.Probe"
 
