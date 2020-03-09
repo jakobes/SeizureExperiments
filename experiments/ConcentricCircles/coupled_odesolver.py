@@ -13,7 +13,6 @@ from typing import (
 )
 
 from coupled_utils import (
-    masked_dofs,
     time_stepper,
     CoupledODESolverParameters,
 )
