@@ -17,7 +17,7 @@ from coupled_utils import (
     CoupledODESolverParameters,
 )
 
-from xalbrain.cellmodels import CardiacCellModel
+from xalbrain.cellmodels import CellModel
 
 
 class CoupledODESolver:
@@ -25,7 +25,7 @@ class CoupledODESolver:
             self,
             time: df.Constant,
             mesh: df.Mesh,
-            cell_model: CardiacCellModel,
+            cell_model: CellModel,
             parameters: CoupledODESolverParameters,
             cell_function: df.MeshFunction,
     ) -> None:
@@ -121,10 +121,10 @@ class CoupledODESolver:
 class CoupledSingleCellSolver(CoupledODESolver):
     def __init__(
             self,
-            cell_model: CardiacCellModel,
+            cell_model: CellModel,
             time: df.Constant,
             reload_ext_modules: bool = False,
-            params: df.Parameters = None
+            parameters: df.Parameters = None
     ) -> None:
         """Create solver from given cell model and optional parameters."""
         # Store model
@@ -138,5 +138,5 @@ class CoupledSingleCellSolver(CoupledODESolver):
             time,
             cell_model,
             reload_ext_modules=reload_ext_modules,
-            params=params
+            parameters=parameters
         )

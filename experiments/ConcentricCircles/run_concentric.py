@@ -40,7 +40,6 @@ from postutils import (
 
 from xalbrain.cellmodels import (
     Cressman,
-    Noble
 )
 
 from coupled_utils import (

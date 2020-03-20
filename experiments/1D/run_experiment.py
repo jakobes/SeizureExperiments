@@ -18,8 +18,8 @@ if __name__ == "__main__":
     KL_list = (0.5, 0.5 / 2, 0.5 / 4)
     parameter_list = product(conductivity_list, KL_list)
 
-    def experiment(params, N=300, dt=0.05, T=10e3, dimension=1):
-        conductivity, Kinf_domain_size = params
+    def experiment(parameters, N=300, dt=0.05, T=10e3, dimension=1):
+        conductivity, Kinf_domain_size = parameters
 
         lbda = 2.76
         chi = 1.26e3

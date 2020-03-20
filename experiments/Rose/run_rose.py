@@ -42,7 +42,6 @@ from postutils import (
 from xalbrain.cellmodels import (
     Cressman,
     FitzHughNagumoManual,
-    Noble
 )
 
 from coupled_utils import (
@@ -233,7 +232,7 @@ def get_saver(
         "coupled_odesolver.py",
         "coupled_splittingsolver.py",
         "coupled_utils.py",
-        "run_idealised.py",
+        "run_rose.py",
     ]
     store_sourcefiles(map(Path, sourcefiles), outpath)
 
