@@ -1,5 +1,6 @@
 #/usr/bin/env bash
 
-cd ${FENICS_HOME}/fenicstools
+git clone https://github.com/jakobes/fenicstools.git
+cd fenicstools
 ${FENICS_PYTHON} -m pip install --user .
 ${FENICS_PYTHON} -c "import fenicstools; fenicstools.Probe"
