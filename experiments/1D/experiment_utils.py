@@ -5,7 +5,7 @@ import numpy as np
 
 from xalbrain import (
     SplittingSolver,
-    CardiacModel,
+    Model,
 )
 
 from postspec import LoaderSpec
@@ -34,7 +34,7 @@ def get_conductivities(value: float = 0.5) -> df.Constant:
     return Mi
 
 
-def get_solver(brain: CardiacModel, ode_dt: int = 1) -> SplittingSolver:
+def get_solver(brain: Model, ode_dt: int = 1) -> SplittingSolver:
     ps = SplittingSolver.default_parameters()
     ps["pde_solver"] = "monodomain"
     ps["theta"] = 0.5
@@ -50,7 +50,7 @@ def get_solver(brain: CardiacModel, ode_dt: int = 1) -> SplittingSolver:
     df.parameters["form_compiler"]["cpp_optimize_flags"] = flags
 
     df.parameters["form_compiler"]["quadrature_degree"] = 1
-    solver = SplittingSolver(brain, ode_timestep=ode_dt, params=ps)
+    solver = SplittingSolver(brain, ode_timestep=ode_dt, parameters=ps)
     return solver
 
 

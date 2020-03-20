@@ -41,7 +41,7 @@ class CoupledSplittingSolver(ABC):
         brain: CoupledBrainModel,
         parameters: CoupledSplittingSolverParameters,
     ) -> None:
-        """Create solver from given Cardiac Model and (optional) parameters."""
+        """Create solver from given Model and (optional) parameters."""
         self._brain = brain
         self._parameters = parameters
 

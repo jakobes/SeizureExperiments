@@ -1,6 +1,6 @@
 import dolfin as df
 
-from xalbrain.cellmodels import CardiacCellModel
+from xalbrain.cellmodels import CellModel
 
 from typing import (
     Dict,
@@ -20,7 +20,7 @@ class CoupledBrainModel:
         *,
         time: df.Constant,
         mesh: df.Mesh,
-        cell_model: CardiacCellModel,
+        cell_model: CellModel,
         cell_function: df.MeshFunction,
         cell_tags: CellTags,
         interface_function: df.MeshFunction,

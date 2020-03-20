@@ -7,7 +7,7 @@ import dolfin as df
 
 from pathlib import Path
 
-from xalbrain import CardiacModel
+from xalbrain import Model
 
 from xalbrain.cellmodels import Cressman
 
@@ -72,7 +72,7 @@ def get_brain(
     N: int,
     conductivity: float,
     K_domain_size: float
-) -> CardiacModel:
+) -> Model:
     """
     Create container class for splitting solver parameters
 
@@ -91,7 +91,7 @@ def get_brain(
     model_parameters = Cressman.default_parameters()
     model_parameters["Koinf"] = Kinf
     model = Cressman(params=model_parameters)
-    brain = CardiacModel(
+    brain = Model(
         mesh,
         time_const,
         M_i=Mi,
@@ -102,7 +102,7 @@ def get_brain(
 
 
 def get_post_processor(
-        brain: CardiacModel,
+        brain: Model,
         outpath: Union[str, Path],
         suffix: str = None,
         home: bool = False
@@ -174,7 +174,7 @@ def run_ML_experiment(
         suffix=identifier
     )
 
-    for i, ((t0, t1), (vs_, vs, vur)) in tqdm.tqdm(enumerate(solver.solve((0, T), dt)), total=T/dt - 1):
+    for i, ((t0, t1), (vs_, vs, vur)) in tqdm.tqdm(enumerate(solver.solve(0, T, dt)), total=T/dt - 1):
         if verbose:
             print("Timetep: {:d}".format(i))
 
